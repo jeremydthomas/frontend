@@ -20,6 +20,7 @@ export class AppComponent {
   constructor(private http: HttpClient) {
     this.provider = ethers.providers.getDefaultProvider('goerli');
   }
+
   createWallet() {
     this.http
       .get<any>('http://localhost:3000/token-address')
@@ -61,11 +62,14 @@ export class AppComponent {
       })
       .subscribe((ans) => {
         const txHash = ans.result;
+        console.log(txHash);
+
         this.provider.getTransaction(txHash).then((tx) => {
           tx.wait().then((receipt) => {
             // todo: (optional) display
             // reload info by calling the updateInfo() method
             // this.updateInfo();
+            console.log(receipt);
           });
         });
       });
